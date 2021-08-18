@@ -41,7 +41,7 @@ class DoctorProfileController extends Controller
 
         $appointments = Appointments::where('doctor_id',$user->doctors->id)->
                         where('isbooked',true)->get() ;
-        $count= count($appointments);
+        $count= $appointments->count();
         return view('doctor.profile',['doctor'=>$user,'age'=>$age,'appointmentCounts'=>$count]);
 
     }
@@ -75,7 +75,7 @@ class DoctorProfileController extends Controller
                                     where('isbooked',false)->
                                     where('isCancelled',false)->get();
 //        dd($appointments[0]->patient->user->name);
-        $cnt = count($appointments);
+        $cnt = $appointments->count();
         if($cnt==0){
             flash('No Upcoming Appointments');
             return view('doctor.upcomingAppointments',['appointments'=>$appointments]);

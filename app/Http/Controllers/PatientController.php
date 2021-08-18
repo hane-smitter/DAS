@@ -19,6 +19,11 @@ class PatientController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+     public function showRegistrationForm() {
+         return view('patient.register');
+     }
+
     public function showDoctorSearchList(Request $request){
 
 

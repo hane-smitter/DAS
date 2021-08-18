@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Doctors;
 use App\SchedulingSetting;
+use App\SpecializationDepartment;
 use Illuminate\Support\Facades\Auth;
 use PhpParser\Comment\Doc;
 
@@ -20,6 +21,10 @@ class DoctorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function showRegistrationForm() {
+        $departmentArray = SpecializationDepartment::all();
+        return view('doctor.register')->compact('departmentArray');
+    }
     public function setScheduleParamForm()
     {
         return view('doctor.setSchedule');
@@ -147,7 +152,8 @@ class DoctorController extends Controller
 
         $user = User::where('id', Auth::user()->id)->first();
         $scheduling_settings = SchedulingSetting::where('doctor_id',$user->doctors->id)->first();
-        $cnt = count($scheduling_settings);
+        // dd($scheduling_settings->count());
+        $cnt = $scheduling_settings->count();
         if($cnt==0){
             $scheduling_settings = ($user->doctors->scheduling_settings==null)? new SchedulingSetting: $user->doctors->scheduling_settings;
             $doctor = $user->doctors;

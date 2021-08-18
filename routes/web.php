@@ -15,9 +15,10 @@
 //
 //});
 
-Route::get('/', function () {
-    return view('commonHome');
-});
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+
+Route::get('/', 'CommonHomeController@index')->name('common-home');
 
 Auth::routes();
 
@@ -223,3 +224,8 @@ Route::prefix('user')-> group(function (){
 //	Route::get('register', ['uses' => 'AssistantRegisterController@dash', 'as' => 'assistant.dashboard']);
 //});
 
+Route::get('/patient/register', 'Auth\PatientRegisterController@showRegistrationForm')->name('registerPatient');
+Route::get('/doctor/register', 'Auth\DoctorRegisterController@showRegistrationForm')->name('registerDoctor');
+Route::post('/doctor/register', 'Auth\DoctorRegisterController@create')->name('createDoctor');
+Route::get('/assistant/register', 'Auth\AssistantRegisterController@showRegistrationForm')->name('registerAssistant');
+// Route::post()->name('admin-prod-deactive-datatables');

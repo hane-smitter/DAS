@@ -10,7 +10,7 @@ class SMSManager
 	public function sendSMS($to, $body){
 
 		Nexmo::message()->send([
-	    	'to'   => '+88'.$to,
+	    	'to'   => '+254'.$to,
 	    	'from' => 'DAS',
 	    	'text' => $body
 		]);

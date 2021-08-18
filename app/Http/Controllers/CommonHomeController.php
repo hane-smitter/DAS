@@ -33,13 +33,13 @@ class CommonHomeController extends Controller
 //        $doctors = Doctors::where('doctorName','LIKE',"%{$request->search}%")
 //            ->orWhere('specializationDepartment','LIKE',"%{$request->search}%")->get();
 
-        if(count($doctors)!=0){
+        if(count($doctors) > 0){
             return view('doctor_search_list_guest',['doctors'=>$doctors]);
 
         }
         else flash('Search result is empty');
 //
-        return redirect()->route("commonHome");
+        return redirect()->route("common-home");
     }
 
     /**

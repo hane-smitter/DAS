@@ -35,7 +35,7 @@
 
                         <ul class="dropdown-menu">
                             <li>
-                                <a href="{{ route('registerPatient') }}">
+                                <a href="{{ route('registerPatient') }}"> 
                                     as a patient
                                 </a>
                             </li>

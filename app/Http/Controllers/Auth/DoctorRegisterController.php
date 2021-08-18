@@ -78,7 +78,7 @@ class DoctorRegisterController extends Controller
      * @param  array  $data
      * @return \App\User
      */
-    protected function create(array $data)
+    protected function create(Request $data)
     {
         $user= User::create([
             'name' => $data['name'],
@@ -94,10 +94,11 @@ class DoctorRegisterController extends Controller
 
         ]);
 
-/**        •	id
+/*
+•	id
 •	userId
 •	registrationNo.
-    •	educationalDegrees
+•   educationalDegrees
 •	specializationDepartment
 •	specializationDepartmentId
 •	chamberAddress
@@ -106,7 +107,7 @@ class DoctorRegisterController extends Controller
 •	isActiveForSchedulilng
 •	isChamberCurrentlyOpen
 
-**/
+*/
 
 
         $doctors = Doctors::create([
@@ -123,8 +124,9 @@ class DoctorRegisterController extends Controller
             'isChamberCurrentlyOpen' =>false,
 
         ]);
-        $this->sendActivationCode($user);
-        return $user;
+        // $this->sendActivationCode($user);
+        flash("Account has been created. An activation code has been sent to your phone number.");
+        return redirect()->route('user.activation');
     }
 
     public function sendActivationCode($user)

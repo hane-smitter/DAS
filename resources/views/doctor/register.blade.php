@@ -5,7 +5,7 @@
 	<div class="">
 		<div class="well">
 			<div class="panel-heading" align="center" ><strong>Doctor's Registration</strong></div>
-			<form class="form-horizontal"method= "POST" action="{{ route('registerDoctor') }}">
+			<form class="form-horizontal"method= "POST" action="{{ route('createDoctor') }}">
 				{{ csrf_field() }}
 				{{--@include('flash::message')--}}
 			  <div class="form-group">
