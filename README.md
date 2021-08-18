@@ -15,7 +15,7 @@ Prerequisites : Git, Composer, Xampp/Wamp
 
 ### Step-1: Install git and Clone this repository
 ````
-https://github.com/kalinkon/Doctor-s-Appointment-System
+https://github.com/hane-smitter/DAS
 ````
 ### Step-2: Import the project in a editor
 ### Step-3: Install Composer
