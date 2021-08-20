@@ -14,7 +14,7 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Auth\Events\Registered;
-use Nexmo\Client\Exception\Exception;
+use Throwable;
 
 class DoctorRegisterController extends Controller
 {
@@ -59,9 +59,9 @@ class DoctorRegisterController extends Controller
     {
         return Validator::make($data, [
             'name' => 'required|string|max:255',
-//            'email' => 'required|string|email|max:255|unique:users',
+           'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
-            'mobileNo' => 'required|regex:/(01)[0-9]{9}/|unique:users',
+            'mobileNo' => ['required', 'regex:/(0|\+?254)[0-9]{9}/', 'unique:users'],
 
 //            'gender' => 'required',
             'registrationNo'=> 'required|unique:doctors',
@@ -78,8 +78,9 @@ class DoctorRegisterController extends Controller
      * @param  array  $data
      * @return \App\User
      */
-    protected function create(Request $data)
+    protected function create(array $data)
     {
+
         $user= User::create([
             'name' => $data['name'],
             'date_of_birth'=>$data['date_of_birth'],
@@ -124,9 +125,9 @@ class DoctorRegisterController extends Controller
             'isChamberCurrentlyOpen' =>false,
 
         ]);
-        // $this->sendActivationCode($user);
-        flash("Account has been created. An activation code has been sent to your phone number.");
-        return redirect()->route('user.activation');
+        $this->sendActivationCode($user);
+        // flash("Account has been created. An activation code has been sent to your phone number.");
+        // return redirect()->route('user.activation');
     }
 
     public function sendActivationCode($user)
@@ -141,12 +142,12 @@ class DoctorRegisterController extends Controller
 //        Mail::to($user->email)->queue(new EmailVerification($array));
 
         try {
-            $smsBody = 'Welcome, '.$user->name.' Your Activation code is '.$activation_code.'. Please activate your account http://127.0.0.1/user/activation. Thank You. ';
+            $smsBody = 'Welcome, '.$user->name.'. Your Activation code is '.$activation_code.'. Please activate your account '.env("APP_URL", "http://127.0.0.1").'/user/activation. \nThank You. ';
             $smsManager = new SMSManager();
             $smsManager->sendSMS($user->mobileNo, $smsBody);
 
-        } catch (Exception $e) {
-
+        } catch (Throwable $e) {
+            var_dump($e);
         }
 
     }
@@ -158,7 +159,8 @@ class DoctorRegisterController extends Controller
     public function register(Request $request)
     {
         $this->validator($request->all())->validate();
-        event(new Registered($user = $this->create($request->all())));
+        $user = $this->create($request->all());
+        event(new Registered($user));
 //        $this->guard()->login($user);
         flash('Successfully enrolled to the system, now please check your mobile for the activation code ');
 

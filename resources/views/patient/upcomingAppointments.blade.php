@@ -33,7 +33,7 @@
                                 <tr>
                                     <td >{{$item->serial}}</td>
                                     <td>{{$item->doctor->user->name}}</td>
-                                    <td>{{Carbon\Carbon::createFromFormat('Y-m-d g:i:s', $item->scheduledTime)->format('g:i a d-m-Y ')}} </td>
+                                    <td>{{Carbon\Carbon::parse($item->scheduledTime)->format('g:i a d-m-Y ')}} </td>
                                     <td>
                                         <a href='{{url('/patient/liveChamber/'.$item->doctor->user->id)}}' class="btn btn-primary"> G0! </a>
                                     </td>

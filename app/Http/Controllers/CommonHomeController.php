@@ -22,13 +22,14 @@ class CommonHomeController extends Controller
     }
 
     public function showDoctorSearchList(Request $request){
+        // dd($request->search);
 
-
+//         ->whereRaw('MATCH (name) AGAINST (? IN BOOLEAN MODE)', array($search))
 //        $doctors = Doctors::where('doctorName','LIKE',"%{$request->name}%")->get();
 //        $users = User::where('role','Doctor')->where('name','LIKE',"%{$request->search}%")->get();
-        $doctors = Doctors::where('doctorName','LIKE',"%{$request->search}%")->
-        orWhere('chamberAddress','LIKE',"%{$request->search}%")->
-        orWhere('specializationDepartment','LIKE',"%{$request->search}%")->
+        $doctors = Doctors::where('doctorName','LIKE',"%$request->search%")->
+        orWhere('chamberAddress','LIKE',"%$request->search%")->
+        orWhere('specializationDepartment','LIKE',"%$request->search%")->
         where('isActiveForScheduling',true)->get();
 //        $doctors = Doctors::where('doctorName','LIKE',"%{$request->search}%")
 //            ->orWhere('specializationDepartment','LIKE',"%{$request->search}%")->get();

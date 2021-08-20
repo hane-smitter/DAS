@@ -73,7 +73,7 @@ class PatientRegisterController extends Controller
      * @param  array  $data
      * @return \App\User
      */
-    protected function create(array $data)
+    protected function create(Request $data)
     {
         $user= User::create([
             'name' => $data['name'],
@@ -105,7 +105,8 @@ class PatientRegisterController extends Controller
             'showUpCount'=>'0',
         ]);
         $this->sendActivationCode($user);
-        return $user;
+        flash("Account has been created. An activation code has been sent to your phone number.<br>Enter your activation code to activate your account.");
+        return redirect()->route('user.activation');
     }
 
     public function sendActivationCode($user)

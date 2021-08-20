@@ -225,7 +225,10 @@ Route::prefix('user')-> group(function (){
 //});
 
 Route::get('/patient/register', 'Auth\PatientRegisterController@showRegistrationForm')->name('registerPatient');
+Route::post('/patient/register', 'Auth\PatientRegisterController@create')->name('createPatient');
+
 Route::get('/doctor/register', 'Auth\DoctorRegisterController@showRegistrationForm')->name('registerDoctor');
-Route::post('/doctor/register', 'Auth\DoctorRegisterController@create')->name('createDoctor');
+Route::post('/doctor/register', 'Auth\DoctorRegisterController@register')->name('createDoctor');
+
 Route::get('/assistant/register', 'Auth\AssistantRegisterController@showRegistrationForm')->name('registerAssistant');
 // Route::post()->name('admin-prod-deactive-datatables');

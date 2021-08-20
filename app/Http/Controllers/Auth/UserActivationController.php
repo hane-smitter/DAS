@@ -49,14 +49,13 @@ class UserActivationController extends Controller
 
 
         try {
-            $smsBody = 'Welcome, '.$user->name.' Your password changing code is '.$activation_code.'. Please activate your account http://127.0.0.1/user/activation. Thank You. ';
+            $smsBody = 'Welcome, '.$user->name.' Your password changing code is '.$activation_code.'. Please activate your account,'.env('APP_URL', 'http://127.0.0.1').'/user/activation. Thank You. ';
             $smsManager = new SMSManager();
             $smsManager->sendSMS($user->mobileNo, $smsBody);
 
         } catch (Exception $e) {
 
         }
-
 
         flash('Successfully, now please check your mobile for the activation code ')->success();
 
@@ -68,7 +67,7 @@ class UserActivationController extends Controller
 
     public function userActivate(Request $request){
         $this->validate($request, [
-            'mobileNo' => 'required|regex:/(01)[0-9]{9}/',
+            'mobileNo' => 'required',
             'activation_code' => 'required|integer',
         ]);
 
@@ -106,7 +105,7 @@ class UserActivationController extends Controller
 
     public function changePassword(Request $request){
         $this->validate($request, [
-            'mobileNo' => 'required|regex:/(01)[0-9]{9}/',
+            'mobileNo' => 'required|regex:/(07)[0-9]{9}/',
             'activation_code' => 'required|integer',
             'password' => 'required|string|min:6|confirmed',
         ]);
@@ -162,7 +161,7 @@ class UserActivationController extends Controller
 
     public function activationCodeSend(Request $request){
         $this->validate($request, [
-            'mobileNo' => 'required|regex:/(01)[0-9]{9}/',
+            'mobileNo' => 'required',
         ]);
 
         $user = User::where('mobileNo', $request->mobileNo)->first();
@@ -170,6 +169,7 @@ class UserActivationController extends Controller
             flash('There is no user with this mobile no!')->error();
             return redirect()->route('user.send_activation_code');
         }
+
 //        $user->is_activated = false;
 //        $user->save();
 
@@ -181,7 +181,7 @@ class UserActivationController extends Controller
 
     public function forgetPasswordCodeSend(Request $request){
         $this->validate($request, [
-            'mobileNo' => 'required|regex:/(01)[0-9]{9}/',
+            'mobileNo' => 'required|regex:/(07)[0-9]{9}/',
         ]);
 
         $user = User::where('mobileNo', $request->mobileNo)->first();

@@ -35,7 +35,7 @@ class PatientProfileController extends Controller
         $isAttendedCount=count($isAttended);
         $pastAppointments = Appointments::where('patient_id',$user->patients->id)->
         where('scheduledTime','<',now())->get();
-        $pastAppointmentsCount = count($pastAppointments);
+        $pastAppointmentsCount = $pastAppointments->count();
         $percentage =null;
         if($pastAppointmentsCount!=0){
             $percentage = $isAttended*100/$pastAppointmentsCount;

@@ -11,7 +11,7 @@
 			  <div class="form-group">
 			    <label for="name" class="col-sm-2 control-label">Name</label>
 			    <div class="col-sm-10">
-			      <input type="text" class="form-control" id="name" placeholder="Name" name="name" required autofocus>
+			      <input type="text" class="form-control" id="name" placeholder="Name" name="name" value="{{ old('name') }}" required autofocus>
 			    </div>
 			  </div>
 
@@ -19,7 +19,7 @@
 			  <div class="form-group">
 			    <label for="email" class="col-sm-2 control-label">Email</label>
 			    <div class="col-sm-10">
-			      <input type="email" name="email" class="form-control" id="email" placeholder="Email" autofocus >
+			      <input type="email" name="email" class="form-control" id="email" placeholder="Email" value="{{ old('email') }}" >
 					{{--@if ($errors->has('email'))--}}
 						{{--<span class="help-block">--}}
 									{{--<strong>{{ $errors->first('email') }}</strong>--}}
@@ -32,7 +32,7 @@
 			  <div class="form-group{{ $errors->has('mobileNo') ? ' has-error' : '' }}">
 			    <label for="mobile" class="col-sm-2 control-label">Mobile number</label>
 			    <div class="col-sm-10">
-			      <input type="number" class="form-control" id="mobile" placeholder="Mobile" name="mobileNo" required autofocus>
+			      <input type="number" class="form-control" id="mobile" placeholder="Mobile" name="mobileNo" value="{{ old('mobileNo') }}" required>
 					@if ($errors->has('mobileNo'))
 						<span class="help-block">
 							<strong>{{ $errors->first('mobileNo') }}</strong>
@@ -69,7 +69,7 @@
 			      <select class="form-control" name="specializationDepartment">
 					  <option value="" disabled="disabled" selected>Choose Department</option>
 					  @foreach($departmentArray as $data)
-						  <option value="{{$data->id}}">{{$data->departmentName}}</option>
+						  <option value="{{ $data->id }}" @if(old('specializationDepartment') == $data->id)selected @endif>{{$data->departmentName}}</option>
 					  @endforeach
 
 			      </select>
@@ -80,7 +80,7 @@
 				<div class="form-group">
 					<label for="dob" class="col-sm-2 control-label">Date of Birth</label>
 					<div class="col-sm-3">
-						<input type='date' name="date_of_birth" class="form-control" required>
+						<input type='date' name="date_of_birth" class="form-control" value="{{ old('date_of_birth') }}" required>
 					</div>
 				</div>
 
@@ -93,9 +93,9 @@
 
 			      <select class="form-control" name="gender" required>
 					  <option selected disabled>Choose gender</option>
-					  <option>Male</option>
-			        <option>Female</option>
-			        <option>Other</option>
+					  <option @if(strtolower(old('gender')) == "male")selected @endif>Male</option>
+			        <option @if(strtolower(old('gender')) == "female")selected @endif>Female</option>
+			        <option @if(strtolower(old('gender')) == "other")selected @endif>Other</option>
 			      </select>
 			    </div>
 			  </div>
@@ -106,7 +106,7 @@
 			  <div class="form-group">
 			    <label for="degrees" class="col-sm-2 control-label">Degrees/Education</label>
 			    <div class="col-sm-10">
-			      <input type="text" class="form-control" id="degrees" placeholder="for example: MBBS, FCPS" name="educationalDegrees" required>
+			      <input type="text" class="form-control" id="degrees" placeholder="for example: MBBS, FCPS" name="educationalDegrees" value="{{ old('educationalDegrees') }}" required>
 			    </div>   
 			  </div>
 
@@ -115,7 +115,7 @@
 			  <div class="form-group{{ $errors->has('registrationNo') ? ' has-error' : '' }}">
 			    <label for="reg_no" class="col-sm-2 control-label">Registration number</label>
 			    <div class="col-sm-10">
-			      <input type="number" class="form-control" id="reg_no" placeholder="registration number" name="registrationNo" required >
+			      <input type="number" class="form-control" id="reg_no" placeholder="registration number" name="registrationNo" value="{{ old('registrationNo') }}" required >
 					@if ($errors->has('registrationNo'))
 						<span class="help-block">
 							<strong>{{ $errors->first('RegistrationNo') }} already taken</strong>
@@ -128,7 +128,7 @@
 				<div class="form-group">
 					<label for="address" class="col-sm-2 control-label">Chamber's Address</label>
 					<div class="col-sm-10">
-						<input type="text" name="chamberAddress" class="form-control" id="address" placeholder="address" required>
+						<input type="text" name="chamberAddress" class="form-control" id="address" placeholder="address" value="{{ old('chamberAddress') }}" required>
 					</div>
 				</div>
 

@@ -32,7 +32,8 @@ class AppointmentController extends Controller
                                 ->where('doctor_id', $doctor->id)
                                 ->where('isbooked', true)->get();
         $schedulingSetting = SchedulingSetting::where('doctor_id', $doctor->id)->first();
-        $cnt = count($appointments);
+        $cnt = $appointments->count();
+        // dd($schedulingSetting->timeForCategoryA_patients);
         if($cnt == 0) {
             return $schedulingSetting->timeForCategoryA_patients;
         }
@@ -59,7 +60,8 @@ class AppointmentController extends Controller
         $appointment->serial = $serial;
         $appointment->isbooked = false;
         $appointment->isCancelled = false;
-        $temp = Carbon::createFromFormat('Y-m-d g:i:s', $appointment->scheduledTime)->format('g:i a d-m-Y ');
+        // dd(Carbon::parse($appointment->scheduledTime)->format('g:i a d-m-Y'));
+        $temp = Carbon::parse($appointment->scheduledTime)->format('g:i a d-m-Y');
         $appointment->save();
 
         try {
@@ -67,9 +69,10 @@ class AppointmentController extends Controller
                 . $appointment->doctor->doctorName . ' and your scheduled time is ' . $temp .
                 '. thank you';
             $smsManager = new SMSManager();
+
             $smsManager->sendSMS($user->mobileNo, $smsBody);
         }catch (Exception $e){
-
+            return $e->getMessage();
         }
 
         flash('your serial is set check your mobile');
@@ -79,7 +82,7 @@ class AppointmentController extends Controller
     public function appointmentCalculate(Request $request, $doctor_id){
 
         $doctor = Doctors::find($doctor_id);
-
+        
         $user = Auth::user();
 
         $upcoming = Appointments::where('doctor_id', $doctor->id)
@@ -105,6 +108,7 @@ class AppointmentController extends Controller
 
         $patientDuration = $this->getPatientDuration($doctor);
         $now = Carbon::today();
+        // dd($now);
 
         for($i = 0; $i < 30; $i++) {
 
@@ -153,7 +157,7 @@ class AppointmentController extends Controller
                 ->get();
 
 
-            //addinng new appointment
+            //adding new appointment
             if(count($nextAppointment) == 0) {
                 $tryStart = max(clone $startingTime, Carbon::now());
                 $serial = 1;
@@ -165,6 +169,7 @@ class AppointmentController extends Controller
                 }
 
                 $tryEnd = clone $tryStart;
+                // dd($tryStart->format('g:i A'));
                 $tryEnd->addMinutes($patientDuration);
 
                 if($tryEnd->lte($closingTime))
