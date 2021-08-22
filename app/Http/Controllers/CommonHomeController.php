@@ -1,8 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\User;
-use App\Doctors;
+use App\Models\User;
+use App\Models\Doctors;
 use Illuminate\Http\Request;
 
 class CommonHomeController extends Controller

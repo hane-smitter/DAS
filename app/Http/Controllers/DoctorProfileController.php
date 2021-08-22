@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Appointments;
-use App\Doctors;
+use App\Models\Appointments;
+use App\Models\Doctors;
 use App\SMS\SMSManager;
-use App\User;
+use App\Models\User;
 //use Faker\Provider\DateTime;
 use Carbon\Carbon;
 use Illuminate\Http\Request;

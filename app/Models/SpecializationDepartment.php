@@ -7,14 +7,17 @@
  */
 
 
-namespace App;
+namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Department;
-use App\Student;
+use App\Models\Department;
+use App\Models\Student;
 
 class SpecializationDepartment extends Model
 {
+    use HasFactory;
+
     protected $table = 'specialization_department';
     protected $fillable = ['departmentName' ];
 

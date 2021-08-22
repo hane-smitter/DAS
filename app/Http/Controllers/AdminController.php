@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\DayOff;
-use App\SpecializationDepartment;
+use App\Models\DayOff;
+use App\Models\SpecializationDepartment;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
-use App\User;
-use App\Doctors;
-use App\SchedulingSetting;
+use App\Models\User;
+use App\Models\Doctors;
+use App\Models\SchedulingSetting;
 use Illuminate\Support\Facades\Auth;
 use Mockery\Exception;
 use PhpParser\Comment\Doc;

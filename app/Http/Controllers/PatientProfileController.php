@@ -1,13 +1,13 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Appointments;
-use App\Doctors;
-use App\SpecializationDepartment;
+use App\Models\Appointments;
+use App\Models\Doctors;
+use App\Models\SpecializationDepartment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use DateTime;
-use App\User;
+use App\Models\User;
 class PatientProfileController extends Controller
 {
     /**

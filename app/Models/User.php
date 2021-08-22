@@ -1,12 +1,14 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class User extends Authenticatable
 {
+    use HasFactory;
 
     protected $primaryKey = 'id';
     use Notifiable;
@@ -74,9 +76,9 @@ class User extends Authenticatable
     public function patients(){
         return $this->hasOne(Patients::class);
     }
-    public function user_acyivation(){
+    /* public function user_acyivation(){
         return $this->hasOne(User_activation::class);
-    }
+    } */
 
 
     public function doctors(){

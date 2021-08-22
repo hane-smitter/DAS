@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\DayOff;
-use App\SpecializationDepartment;
+use App\Models\DayOff;
+use App\Models\SpecializationDepartment;
 use Illuminate\Http\Request;
-use App\User;
-use App\Patients;
-use App\Doctors;
+use App\Models\User;
+use App\Models\Patients;
+use App\Models\Doctors;
 use DateTime;
 use Response;
 

@@ -2,20 +2,21 @@
 
 namespace App\Http\Controllers;
 use App\SMS\SMSManager;
-use App\Appointments;
-use App\DayOff;
-use App\SpecializationDepartment;
+use App\Models\Appointments;
+use App\Models\DayOff;
+use App\Models\SpecializationDepartment;
 use Illuminate\Http\Request;
-use App\User;
-use App\Patients;
-use App\Doctors;
-use App\SchedulingSetting;
+use App\Models\User;
+use App\Models\Patients;
+use App\Models\Doctors;
+use App\Models\SchedulingSetting;
 use Illuminate\Support\Facades\Auth;
-use Nexmo\Client\Exception\Exception;
+// use Nexmo\Client\Exception\Exception;
 use PhpParser\Comment\Doc;
 use DateTime;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
+use Throwable;
 
 class AppointmentController extends Controller
 {
@@ -71,7 +72,7 @@ class AppointmentController extends Controller
             $smsManager = new SMSManager();
 
             $smsManager->sendSMS($user->mobileNo, $smsBody);
-        }catch (Exception $e){
+        }catch (Throwable $e){
             return $e->getMessage();
         }
 

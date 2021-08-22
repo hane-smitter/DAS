@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Appointments;
-use App\DayOff;
+use App\Models\Appointments;
+use App\Models\DayOff;
 use Illuminate\Http\Request;
-use App\User;
-use App\Doctors;
-use App\SchedulingSetting;
-use App\SpecializationDepartment;
+use App\Models\User;
+use App\Models\Doctors;
+use App\Models\SchedulingSetting;
+use App\Models\SpecializationDepartment;
 use Illuminate\Support\Facades\Auth;
 use PhpParser\Comment\Doc;
 
