@@ -41,11 +41,13 @@ class UserFactory extends Factory
      */
     public function definition()
     {
+        $Setgender = $this->faker->randomElement($array = array ('male', 'female'));
         return [
-            'name' => $this->faker->name(),
+            'name' => $this->faker->name($gender = $Setgender),
             'email' => $this->faker->unique()->safeEmail(),
-            'mobileNo' => $this->faker->unique()->phoneNumber,
-            'gender' => $this->faker->randomElement($array = array ('male', 'female')),
+            // 'mobileNo' => $this->faker->unique()->phoneNumber,
+            'mobileNo' => '07' . $this->faker->unique()->randomNumber($nbDigits = 8, $strict = true),
+            'gender' => $Setgender,
             'date_of_birth' => $this->faker->dateTimeBetween($startDate = '-55 years', $endDate = 'now', $timezone = 'Africa/Nairobi'),
             'pictureLink' => $this->faker->imageUrl($width = 200, $height = 200, 'people', true, 'Fake'),
             'isActivated' => true,

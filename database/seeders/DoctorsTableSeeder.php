@@ -31,9 +31,9 @@ class DoctorsTableSeeder extends Seeder
                                 'SpecializationDepartment' => $dept->departmentName,
                             ];
                         })
-                        ->has(
+                        /* ->has(
                             SchedulingSetting::factory()->count(1)
-                        ,'scheduling_setting')
+                        ,'scheduling_setting') */
             )
             ->create();
     }

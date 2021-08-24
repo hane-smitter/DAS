@@ -22,7 +22,7 @@
 					<div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
 						<label for="email" class="col-sm-2 control-label">Email</label>
 						<div class="col-sm-10">
-							<input name="email" type="email" class="form-control" id="email" value="{{old('email')}}" autofocus>
+							<input name="email" type="email" class="form-control" id="email" value="{{ old('email') }}">
 							@if ($errors->has('email'))
 								<span class="help-block">
 									<strong>{{ $errors->first('email') }}</strong>
@@ -37,7 +37,7 @@
 					<div class="form-group{{ $errors->has('mobileNo') ? ' has-error' : '' }}">
 						<label for="mobile" class="col-sm-2 control-label">Mobile number</label>
 						<div class="col-sm-10">
-							<input type="number" class="form-control" name="mobileNo" id="mobileNo" placeholder="Mobile" value="{{old('mobileNo')}}" required autofocus>
+							<input type="number" class="form-control" name="mobileNo" id="mobileNo" placeholder="Mobile" value="{{old('mobileNo')}}" required>
 								@if ($errors->has('mobileNo'))
 									<span class="help-block">
 									<strong>{{ $errors->first('mobileNo') }}</strong>
@@ -68,11 +68,18 @@
 							<input type="password" class="form-control" id="password-confirm" name="password_confirmation"  required>
 						</div>
 					</div>
+					
 
-					<div class="form-group">
+					<div class="form-group {{ $errors->has('address') ? ' has-error' : '' }}">
 						<label for="address" class="col-sm-2 control-label">Address</label>
 						<div class="col-sm-10">
 							<input type="text" name="address" class="form-control" id="address" placeholder="address" required>
+							@if ($errors->has('address'))
+								<span class="help-block">
+									<strong>{{ $errors->first('address') }}</strong>
+
+								</span>
+							@endif
 						</div>
 					</div>
 
@@ -80,7 +87,7 @@
 					<div class="form-group">
 						<label for="dob" class="col-sm-2 control-label">Date of Birth</label>
 							<div class="col-sm-3">
-								<input type='date' name="date_of_birth" class="form-control" required>
+								<input type='date' name="date_of_birth" class="form-control" value="{{ old('date_of_birth') }}" required>
 							</div>
 					</div>
 
@@ -91,15 +98,12 @@
 						<div class="col-sm-3">
 							<select class="form-control" name="gender" required>
 								<option selected disabled>Choose gender</option>
-								<option>Male</option>
-								<option>Female</option>
-								<option>Other</option>
+								<option @if(strtolower(old('gender')) == "male")selected @endif>Male</option>
+								<option @if(strtolower(old('gender')) == "female")selected @endif>Female</option>
+								<option @if(strtolower(old('gender')) == "other")selected @endif>Other</option>
 							</select>
 						</div>
 					</div>
-
-
-
 
 					<div class="form-group">
 					<div class="col-sm-offset-2 col-sm-10">

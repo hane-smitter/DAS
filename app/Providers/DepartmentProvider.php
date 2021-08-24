@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\SpecializationDepartment;
+use App\Models\SpecializationDepartment;
 use Illuminate\Support\ServiceProvider;
 
 class  DepartmentProvider extends ServiceProvider

@@ -17,10 +17,10 @@ class SMSManager
 	public function sendSMS($to, $body)
 	{
 		$to = preg_replace('/\s/', '', $to);
-		if (preg_match("/^(\+\d{2,3})\d{9}$/", $to)) {
+		if (preg_match("/^(\+?254)\d{9}$/", $to)) {
 			$to = $to;
 		} else if (preg_match("/^([0])\d{9}$/", $to)) {
-			$to = preg_replace('/^([0])/', '+254', $to);
+			$to = preg_replace('/^([0])/', '254', $to);
 		}
 		$basic  = new \Vonage\Client\Credentials\Basic($this->key, $this->secret);
 		$client = new \Vonage\Client($basic);

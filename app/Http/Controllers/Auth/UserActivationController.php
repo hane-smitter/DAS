@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\User;
-use App\User_activation;
-use App\Patients;
-use App\Doctors;
-use App\Assistants;
+use App\Models\User;
+use App\Models\User_activation;
+use App\Models\Patients;
+use App\Models\Doctors;
+use App\Models\Assistants;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -20,7 +20,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Validation\ValidationException;
 use App\SMS\SMSManager;
 use Nexmo\Client\Exception\Exception;
-
+use Throwable;
 
 class UserActivationController extends Controller
 {
@@ -49,11 +49,11 @@ class UserActivationController extends Controller
 
 
         try {
-            $smsBody = 'Welcome, '.$user->name.' Your password changing code is '.$activation_code.'. Please activate your account,'.env('APP_URL', 'http://127.0.0.1').'/user/activation. Thank You. ';
+            $smsBody = 'Welcome, '.$user->name.'. Your account activation code is '.$activation_code.'. Please activate your account,'.env('APP_URL', 'http://127.0.0.1').'/user/activation. Thank You. ';
             $smsManager = new SMSManager();
             $smsManager->sendSMS($user->mobileNo, $smsBody);
 
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
 
         }
 
@@ -67,7 +67,7 @@ class UserActivationController extends Controller
 
     public function userActivate(Request $request){
         $this->validate($request, [
-            'mobileNo' => 'required',
+            'mobileNo' => ['required', 'regex:/(07)\d{8}/'],
             'activation_code' => 'required|integer',
         ]);
 
@@ -98,6 +98,7 @@ class UserActivationController extends Controller
         $user->save();
 
 //        this->guard()->login($user);
+        flash('Yay! Your account has been activated!. Now sign in with your credentials.')->success();
         return redirect()-> route('login');
 
 
@@ -105,9 +106,9 @@ class UserActivationController extends Controller
 
     public function changePassword(Request $request){
         $this->validate($request, [
-            'mobileNo' => 'required|regex:/(07)[0-9]{9}/',
-            'activation_code' => 'required|integer',
-            'password' => 'required|string|min:6|confirmed',
+            'mobileNo' => ['required','regex:/(07)[0-9]{9}/'],
+            'activation_code' => ['required','integer'],
+            'password' => ['required','string','min:6','confirmed'],
         ]);
 
         $user = User::where('mobileNo', $request->mobileNo)->first();
@@ -181,13 +182,13 @@ class UserActivationController extends Controller
 
     public function forgetPasswordCodeSend(Request $request){
         $this->validate($request, [
-            'mobileNo' => 'required|regex:/(07)[0-9]{9}/',
+            'mobileNo' => ['required', 'regex:/(07)[0-9]{9}/'],
         ]);
 
         $user = User::where('mobileNo', $request->mobileNo)->first();
         if($user == null){
-            flash('There is no user with your email!')->error();
-            return redirect()->route('user.forget_password_code');
+            flash('There is no such mobile number with us!!')->error();
+            return redirect()->route('user.send_activation_code_forget_password');
         }
 //        $user->is_activated = false;
 //        $user->save();

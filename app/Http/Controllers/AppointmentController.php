@@ -68,21 +68,22 @@ class AppointmentController extends Controller
         try {
             $smsBody = 'Congratulations, ' . Auth::user()->name . '. Your serial no is ' . $appointment->serial . ' for '
                 . $appointment->doctor->doctorName . ' and your scheduled time is ' . $temp .
-                '. thank you';
+                '. Thank you.';
             $smsManager = new SMSManager();
 
             $smsManager->sendSMS($user->mobileNo, $smsBody);
         }catch (Throwable $e){
-            return $e->getMessage();
+            flash($e->getMessage());
+            return redirect()->route('patient.takeAppointment');
         }
 
-        flash('your serial is set check your mobile');
+        flash('Your serial is set check your mobile');
         return redirect()->route('patient.upcomingAppointments');
     }
 
     public function appointmentCalculate(Request $request, $doctor_id){
 
-        $doctor = Doctors::find($doctor_id);
+        $doctor = Doctors::findOrFail($doctor_id);
         
         $user = Auth::user();
 
@@ -180,7 +181,7 @@ class AppointmentController extends Controller
             $now = clone $next;
         }
 
-        dd("No where");
+        // dd("This doctor is not available for assignment");
 
 
 //        $appointments = Appointments::where('doctor_id', $doctor->id)->get();
@@ -214,7 +215,7 @@ class AppointmentController extends Controller
 //        else {
 //
 //        }
-
+        flash("This doctor is not available for assignment")->important();
         return redirect()->route('patient.doctorSearchList');
     }
 

@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Doctors;
+use App\Models\Doctors;
 use Illuminate\Support\ServiceProvider;
 
 class  DoctorListProvider extends ServiceProvider

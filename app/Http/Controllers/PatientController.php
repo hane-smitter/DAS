@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\Patients;
 use App\Models\Doctors;
 use DateTime;
+use Illuminate\Support\Facades\DB;
 use Response;
 
 class PatientController extends Controller
@@ -20,33 +21,41 @@ class PatientController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-     public function showRegistrationForm() {
-         return view('patient.register');
-     }
+    public function showRegistrationForm()
+    {
+        return view('patient.register');
+    }
 
-    public function showDoctorSearchList(Request $request){
-
-
-//        $doctors = Doctors::where('doctorName','LIKE',"%{$request->name}%")->get();
-        $doctors = Doctors::where('doctorName','LIKE',"%{$request->search}%")->
+    public function showDoctorSearchList(Request $request)
+    {
+        //->whereRaw('MATCH (name) AGAINST (? IN BOOLEAN MODE)', array($search))
+        /* $doctors = Doctors::where('doctorName','LIKE',"%{$request->search}%")->
                             orWhere('chamberAddress','LIKE',"%{$request->search}%")->
                             orWhere('specializationDepartment','LIKE',"%{$request->search}%")->
-                            where('isActiveForScheduling',true)->get();
-//        dd($doctors[0]->user->name);
+                            where('isActiveForScheduling',true)->get(); */
 
-//        $doctors = Doctors::where('doctorName','LIKE',"%{$request->search}%")
-//            orWhere('specializationDepartment','LIKE',"%{$request->search}%")->get();
+        $doctors = Doctors::whereRaw('MATCH (doctorName,chamberAddress,specializationDepartment)  AGAINST (? IN BOOLEAN MODE)', [$request->search])
+                    ->where('isActiveForScheduling',true)->get();
 
-        if(count($doctors)!=0){
-            return view('patient.doctorSearchList',['doctors'=>$doctors]);
+        /* $doctors = DB::table('doctors')
+            ->selectRaw('*, MATCH (doctorName,chamberAddress,specializationDepartment)  AGAINST (? IN BOOLEAN MODE)
+                AS score', [$request->search])
+            ->where('isActiveForScheduling', true)
+            ->orderBy('score', 'desc')
+            ->get(); */
 
-        }
-        else flash('Search result is empty');
-//
+        //        $doctors = Doctors::where('doctorName','LIKE',"%{$request->search}%")
+        //            orWhere('specializationDepartment','LIKE',"%{$request->search}%")->get();
+
+        if (count($doctors) != 0) {
+            return view('patient.doctorSearchList', ['doctors' => $doctors]);
+        } else flash('Search result is empty');
+        //
         return redirect()->route("patient.takeAppointment");
     }
-///
-    public function getDoctorProfile($id){
+    ///
+    public function getDoctorProfile($id)
+    {
 
         $user = User::where('id', $id)->first();
         $doctor = Doctors::where('user_id', $user->id)->first();
@@ -55,23 +64,24 @@ class PatientController extends Controller
         $currentDate = new DateTime(date("Y-m-d"));
         $interval = $birthday->diff($currentDate);
 
-        $age= $interval->format('%Y');
+        $age = $interval->format('%Y');
 
-        return view('patient.profile_doctor',['doctor'=>$doctor,'user'=>$user,'department'=>$department,'age'=>$age]);
-//        return $doctor->specializationDepartmentId;
-//        return $department;
+        return view('patient.profile_doctor', ['doctor' => $doctor, 'user' => $user, 'department' => $department, 'age' => $age]);
+        //        return $doctor->specializationDepartmentId;
+        //        return $department;
     }
 
 
 
-//    public function appointmentCalculate($id){
-////          {{ $id->id; }}
-//        $doctor = Doctors::find($id);
-//        dd($doctor);
-//        return redirect()->route('patient.doctorSearchList');
-//    }
+    //    public function appointmentCalculate($id){
+    ////          {{ $id->id; }}
+    //        $doctor = Doctors::find($id);
+    //        dd($doctor);
+    //        return redirect()->route('patient.doctorSearchList');
+    //    }
 
-    public function loadDoctorProfile(Request $request){
+    public function loadDoctorProfile(Request $request)
+    {
         $doctor = Doctors::where('id', $request->doctor)->first();
         $user = User::where('id', $doctor->user_id)->first();
         $department = SpecializationDepartment::where('id', $doctor->specializationDepartmentId)->first();
@@ -79,11 +89,11 @@ class PatientController extends Controller
         $currentDate = new DateTime(date("Y-m-d"));
         $interval = $birthday->diff($currentDate);
 
-        $age= $interval->format('%Y');
+        $age = $interval->format('%Y');
 
-        return view('patient.profile_doctor',['doctor'=>$doctor,'user'=>$user,'department'=>$department,'age'=>$age]);
-//        return $doctor->specializationDepartmentId;
-//        return $department;
+        return view('patient.profile_doctor', ['doctor' => $doctor, 'user' => $user, 'department' => $department, 'age' => $age]);
+        //        return $doctor->specializationDepartmentId;
+        //        return $department;
     }
 
 

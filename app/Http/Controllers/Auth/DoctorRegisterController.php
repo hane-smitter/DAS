@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Auth;
 
 use App\SMS\SMSManager;
-use App\User_activation;
+use App\Models\User_activation;
 use Illuminate\Support\Facades\DB;
-use App\SpecializationDepartment;
-use App\User;
-use App\Doctors;
+use App\Models\SpecializationDepartment;
+use App\Models\User;
+use App\Models\Doctors;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;

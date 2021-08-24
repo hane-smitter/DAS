@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\DB;
 
 class CreateDoctorsTable extends Migration
 {
@@ -43,7 +44,10 @@ class CreateDoctorsTable extends Migration
             $table->string('visitFee');
             $table->boolean('isActiveForScheduling');
             $table->boolean('isChamberCurrentlyOpen');
+
+
         });
+        DB::statement('ALTER TABLE `doctors` ADD FULLTEXT INDEX doctor_search_index (doctorName,chamberAddress,specializationDepartment)');
     }
 
     /**
@@ -53,6 +57,9 @@ class CreateDoctorsTable extends Migration
      */
     public function down()
     {
+        Schema::table('doctors', function($table) {
+            $table->dropIndex('doctor_search_index');
+        });
         Schema::dropIfExists('doctors');
     }
 }

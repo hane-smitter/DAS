@@ -91,9 +91,9 @@ Route::group(["middleware" => ['auth', 'patient']], function () {
         Route::get('profile', ['uses' => 'PatientProfileController@index', 'as' => 'patient.profile']);
         Route::get('dashboard', ['uses' => 'PatientProfileController@dash', 'as' => 'patient.dashboard']);
         Route::get('takeAppointment', ['uses' => 'PatientProfileController@takeAppointment', 'as' => 'patient.takeAppointment']);
-//    Route::get('upcomingAppointments', ['uses' => 'PatientProfileController@upcomingAppointments', 'as' => 'patient.upcomingAppointments']);
+        // Route::get('upcomingAppointments', ['uses' => 'PatientProfileController@upcomingAppointments', 'as' => 'patient.upcomingAppointments']);
         Route::get('liveChamber', ['uses' => 'PatientProfileController@liveChamber', 'as' => 'patient.liveChamber']);
-//	Route::get('register', ['uses' => 'PatientRegisterController@index', 'as' => 'patient.register']);
+        // Route::get('register', ['uses' => 'PatientRegisterController@index', 'as' => 'patient.register']);
 
         Route::get('activation',['uses' => 'Auth\PatientRegisterController@showActivationForm', 'as' => 'patient.activation']);
         Route::post('activation',['uses' => 'Auth\PatientRegisterController@userActivate', 'as' => 'patient.activation']);
@@ -101,12 +101,12 @@ Route::group(["middleware" => ['auth', 'patient']], function () {
         Route::get('doctorSearchList',['uses' => 'PatientController@showDoctorSearchList', 'as' => 'patient.doctorSearchList']);
 
         Route::post('doctorProfile',['uses' => 'PatientController@loadDoctorProfile', 'as' => 'patient.doctorProfile']);
-//    Route::get('doctorProfile',['uses' => 'PatientController@getDoctorProfile', 'as' => 'patient.doctorProfile']);
+        // Route::get('doctorProfile',['uses' => 'PatientController@getDoctorProfile', 'as' => 'patient.doctorProfile']);
         Route::get('/doctorProfile/{id}','PatientController@getDoctorProfile');
         Route::get('/liveChamber/{id}','PatientProfileController@doctorLiveStatus');
 
 
-//    Route::get('/appointmentCalculate/{id}',['uses' => 'PatientController@appointmentCalculate', 'as' => 'patient.appointmentCalculate']);
+        // Route::get('/appointmentCalculate/{id}',['uses' => 'PatientController@appointmentCalculate', 'as' => 'patient.appointmentCalculate']);
         Route::get('/appointmentCalculate/{id}','AppointmentController@appointmentCalculate');
         Route::get('/cancelAppointment/{id}','PatientProfileController@cancelAppointment');
         Route::get('upcomingAppointments', ['uses' => 'PatientProfileController@upcomingAppointments', 'as' => 'patient.upcomingAppointments']);
@@ -225,7 +225,7 @@ Route::prefix('user')-> group(function (){
 //});
 
 Route::get('/patient/register', 'Auth\PatientRegisterController@showRegistrationForm')->name('registerPatient');
-Route::post('/patient/register', 'Auth\PatientRegisterController@create')->name('createPatient');
+Route::post('/patient/register', 'Auth\PatientRegisterController@register')->name('createPatient');
 
 Route::get('/doctor/register', 'Auth\DoctorRegisterController@showRegistrationForm')->name('registerDoctor');
 Route::post('/doctor/register', 'Auth\DoctorRegisterController@register')->name('createDoctor');

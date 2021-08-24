@@ -52,12 +52,18 @@ class Doctors extends Model
 
         static::created(function($doctor) {
             $doctor->scheduling_setting()->create([
-                'isAvailableOnFriday' => 0,
+                'isAvailableOnFriday' => 1,
+                'fridayStartingTime' => '02:05 PM',
+                'fridayClosingTime' => '04:00 PM',
                 'isAvailableOnSaturday' => 0,
                 'isAvailableOnSunday' => 0,
-                'isAvailableOnMonday' => 0,
+                'isAvailableOnMonday' => 1,
+                'mondayStartingTime' => '02:05 PM',
+                'mondayClosingTime' => '04:00 PM',
                 'isAvailableOnTuesday' => 0,
-                'isAvailableOnWednesday' => 0,
+                'isAvailableOnWednesday' => 1,
+                'wednesdayStartingTime' => '02:05 PM',
+                'wednesdayClosingTime' => '04:00 PM',
                 'isAvailableOnThursday' => 0,
                 'timeForCategoryA_patients' => 20,
                 'timeForCategoryB_patients' => 15,

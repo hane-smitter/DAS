@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\User;
-use App\User_activation;
-use App\Patients;
+use App\Models\User;
+use App\Models\User_activation;
+use App\Models\Patients;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -60,7 +60,7 @@ class PatientRegisterController extends Controller
             'name' => 'required|string|max:255',
 //            'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
-            'mobileNo' => 'required|regex:/(01)[0-9]{9}/|unique:users',
+            'mobileNo' => ['required','regex:/(07)[0-9]{8}/','unique:users'],
             'gender' => 'required',
             'address'=> 'required',
 
@@ -73,7 +73,7 @@ class PatientRegisterController extends Controller
      * @param  array  $data
      * @return \App\User
      */
-    protected function create(Request $data)
+    protected function create(array $data)
     {
         $user= User::create([
             'name' => $data['name'],
@@ -105,8 +105,6 @@ class PatientRegisterController extends Controller
             'showUpCount'=>'0',
         ]);
         $this->sendActivationCode($user);
-        flash("Account has been created. An activation code has been sent to your phone number.<br>Enter your activation code to activate your account.");
-        return redirect()->route('user.activation');
     }
 
     public function sendActivationCode($user)
@@ -120,12 +118,13 @@ class PatientRegisterController extends Controller
 //        $array=['name' => $user->first_name, 'token' => $activation_code];
 //        Mail::to($user->email)->queue(new EmailVerification($array));
         try {
-            $smsBody = 'Welcome, '.$user->name.' Your Activation code is '.$activation_code.'. Please activate your account with the code. Thank You. ';
+            $smsBody = 'Welcome, '.$user->name.'. Your Activation code is '.$activation_code.'. Please activate your account with the code. Thank You. ';
             $smsManager = new SMSManager();
             $smsManager->sendSMS($user->mobileNo, $smsBody);
 
-        } catch (Exception $e) {
-
+        } catch (\Exception $e) {
+            flash($e->getMessage())->error();
+            return redirect()->route('user.activation');
         }
 
 
@@ -183,7 +182,7 @@ class PatientRegisterController extends Controller
         $this->validator($request->all())->validate();
         event(new Registered($user = $this->create($request->all())));
 //        $this->guard()->login($user);
-        flash('Successfully registered, now please check your mobile for the activation code ')->success();
+        flash("<i>Yay! You have been registered</i>.<br>An activation code has been sent to your phone number.<br>Enter your activation code to activate your account.")->success();
         return $this->registered($request, $user)
             ?: redirect($this->redirectPath());
     }
