@@ -37,8 +37,9 @@ class CreateDoctorsTable extends Migration
             $table->string('doctorName');
             $table->integer('registrationNo');
             $table->string('educationalDegrees');
-            $table->string('specializationDepartment');
             $table->integer('specializationDepartmentId');
+            $table->string('specializationDepartment');
+            $table->string('specializationDepartmentKeywords', 500)->nullable();
             $table->string('chamberAddress');
             $table->string('chamberAddressGeoLocation');
             $table->string('visitFee');
@@ -47,7 +48,7 @@ class CreateDoctorsTable extends Migration
 
 
         });
-        DB::statement('ALTER TABLE `doctors` ADD FULLTEXT INDEX doctor_search_index (doctorName,chamberAddress,specializationDepartment)');
+        DB::statement('ALTER TABLE `doctors` ADD FULLTEXT INDEX doctor_search_index (doctorName,chamberAddress,specializationDepartment,specializationDepartmentKeywords)');
     }
 
     /**

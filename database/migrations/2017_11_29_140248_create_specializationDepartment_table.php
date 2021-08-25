@@ -16,6 +16,7 @@ class CreateSpecializationDepartmentTable extends Migration
         Schema::create('specialization_department', function (Blueprint $table) {
             $table->increments('id');
             $table->string('departmentName')->unique();
+            $table->string('departmentKeywords', 500)->nullable();
             $table->timestamps();
         });
     }

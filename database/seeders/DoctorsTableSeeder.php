@@ -27,8 +27,9 @@ class DoctorsTableSeeder extends Seeder
                             $dept = SpecializationDepartment::inRandomOrder()->first();
                             return [
                                 'doctorName' => $user->name,
-                                'SpecializationDepartmentId' => $dept->id,
-                                'SpecializationDepartment' => $dept->departmentName,
+                                'specializationDepartmentId' => $dept->id,
+                                'specializationDepartment' => $dept->departmentName,
+                                'specializationDepartmentKeywords' => $dept->departmentKeywords
                             ];
                         })
                         /* ->has(

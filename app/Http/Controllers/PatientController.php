@@ -34,7 +34,7 @@ class PatientController extends Controller
                             orWhere('specializationDepartment','LIKE',"%{$request->search}%")->
                             where('isActiveForScheduling',true)->get(); */
 
-        $doctors = Doctors::whereRaw('MATCH (doctorName,chamberAddress,specializationDepartment)  AGAINST (? IN BOOLEAN MODE)', [$request->search])
+        $doctors = Doctors::whereRaw('MATCH (doctorName,chamberAddress,specializationDepartment,specializationDepartmentKeywords)  AGAINST (? IN BOOLEAN MODE)', [$request->search])
                     ->where('isActiveForScheduling',true)->get();
 
         /* $doctors = DB::table('doctors')

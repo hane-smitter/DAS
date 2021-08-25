@@ -48,7 +48,7 @@ class UserFactory extends Factory
             // 'mobileNo' => $this->faker->unique()->phoneNumber,
             'mobileNo' => '07' . $this->faker->unique()->randomNumber($nbDigits = 8, $strict = true),
             'gender' => $Setgender,
-            'date_of_birth' => $this->faker->dateTimeBetween($startDate = '-55 years', $endDate = 'now', $timezone = 'Africa/Nairobi'),
+            'date_of_birth' => $this->faker->dateTimeBetween($startDate = '-55 years', $endDate = '-33 years', $timezone = 'Africa/Nairobi'),
             'pictureLink' => $this->faker->imageUrl($width = 200, $height = 200, 'people', true, 'Fake'),
             'isActivated' => true,
             'role' => 'Patient',

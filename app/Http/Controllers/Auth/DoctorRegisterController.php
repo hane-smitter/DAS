@@ -100,8 +100,9 @@ class DoctorRegisterController extends Controller
 •	userId
 •	registrationNo.
 •   educationalDegrees
-•	specializationDepartment
 •	specializationDepartmentId
+•	specializationDepartment
+•   specializationDepartmentKeywords
 •	chamberAddress
 •	chamberAddressGeoLocation
 •	visitfee
@@ -117,7 +118,8 @@ class DoctorRegisterController extends Controller
             'registrationNo'=>$data['registrationNo'],
             'educationalDegrees' => $data['educationalDegrees'],
             'specializationDepartmentId' => $data['specializationDepartment'],
-            'specializationDepartment'=>DB::table('specialization_department')->where('id', $data['specializationDepartment'])->value('departmentName'),
+            'specializationDepartment'=> DB::table('specialization_department')->where('id', $data['specializationDepartment'])->value('departmentName'),
+            'specializationDepartmentKeywords' => DB::table('specialization_department')->where('id', $data['specializationDepartment'])->value('departmentKeywords'),
             'chamberAddress' => $data['chamberAddress'],
             'chamberAddressGeoLocation' => '.999,.9999',
             'visitFee'=> '500',
